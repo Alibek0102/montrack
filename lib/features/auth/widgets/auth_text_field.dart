@@ -7,11 +7,14 @@ class AuthTextField extends StatelessWidget {
   final String placeholder;
   final bool isObscured;
 
+  final TextEditingController controller;
+
   const AuthTextField({
     super.key,
     required this.title,
     required this.placeholder,
-    this.isObscured = false
+    this.isObscured = false,
+    required this.controller,
   });
 
   @override
@@ -28,6 +31,7 @@ class AuthTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: controller,
           obscureText: isObscured,
           decoration: InputDecoration(
             fillColor: AppColors.alphineShow,

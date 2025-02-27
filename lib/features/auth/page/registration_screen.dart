@@ -29,27 +29,27 @@ class RegistrationScreen extends StatelessWidget {
           children: [
             const LoginWelcome(),
             32.height,
-            const AuthTextField(
-              title: 'Name',
-              placeholder: 'Введите пожалуйста почту',
-            ),
-            24.height,
-            const AuthTextField(
-              title: 'Email',
-              placeholder: 'Введите почту',
-            ),
-            24.height,
-            const AuthTextField(
-              title: 'Password',
-              placeholder: 'Введите пароль',
-              isObscured: true,
-            ),
-            24.height,
-            const AuthTextField(
-              title: 'Repeat password',
-              placeholder: 'Повторите пароль',
-              isObscured: true,
-            ),
+            // const AuthTextField(
+            //   title: 'Name',
+            //   placeholder: 'Введите пожалуйста почту',
+            // ),
+            // 24.height,
+            // const AuthTextField(
+            //   title: 'Email',
+            //   placeholder: 'Введите почту',
+            // ),
+            // 24.height,
+            // const AuthTextField(
+            //   title: 'Password',
+            //   placeholder: 'Введите пароль',
+            //   isObscured: true,
+            // ),
+            // 24.height,
+            // const AuthTextField(
+            //   title: 'Repeat password',
+            //   placeholder: 'Повторите пароль',
+            //   isObscured: true,
+            // ),
             const Spacer(),
             const CustomButton(
               buttonText: 'Зарегистрироваться',

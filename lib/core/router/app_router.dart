@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_routes_test/core/router/app_router.gr.dart';
-import 'package:auto_routes_test/core/router/guards/auth_guard.dart';
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter{
   
   @override
   List<AutoRoute> get routes => [
+    AutoRoute(
+      page: SplashRoute.page,
+      initial: true
+    ),
     AutoRoute(
       path: '/login',
       page: LoginRoute.page,
@@ -16,7 +19,6 @@ class AppRouter extends RootStackRouter{
       page: RegistrationRoute.page
     ),
     AutoRoute(
-      initial: true,
       path: '/main',
       page: TabBarRoute.page,
       children: <AutoRoute>[
@@ -33,7 +35,6 @@ class AppRouter extends RootStackRouter{
           page: ProfileRoute.page
         )
       ],
-      guards: [AuthGuard()]
     )
   ];
 }

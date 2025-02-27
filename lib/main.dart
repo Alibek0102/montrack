@@ -3,6 +3,7 @@ import 'package:auto_routes_test/core/providers/authorization/auth_model.dart';
 import 'package:auto_routes_test/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -12,7 +13,12 @@ void main() async {
     options: DefaultFirebaseOptions.ios
   );
 
-  runApp(const MontrackApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AuthModel())
+    ],
+    child: const MontrackApp()
+  ));
 }
 
 class MontrackApp extends StatelessWidget {
@@ -21,7 +27,6 @@ class MontrackApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final appRouter = AppRouter();
-    final authModel = AuthModel();
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -39,9 +44,7 @@ class MontrackApp extends StatelessWidget {
           )
         )
       ),
-      routerConfig: appRouter.config(
-        reevaluateListenable: authModel
-      ),
+      routerConfig: appRouter.config(),
     );
   }
 }

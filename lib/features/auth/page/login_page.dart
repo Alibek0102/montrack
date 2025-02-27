@@ -1,20 +1,38 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_routes_test/common/custom_button.dart';
+import 'package:auto_routes_test/core/providers/authorization/auth_model.dart';
 import 'package:auto_routes_test/features/auth/widgets/auth_text_field.dart';
 import 'package:auto_routes_test/features/auth/widgets/forgot_password_button.dart';
 import 'package:auto_routes_test/features/auth/widgets/login_welcome.dart';
 import 'package:auto_routes_test/features/auth/widgets/registration_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 @RoutePage()
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final appIcon = 'assets/svg_icons/appLogo.svg';
+
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
+
+  _LoginPageState() {
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    final AuthModel authProvider = context.watch<AuthModel>();
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -30,22 +48,33 @@ class LoginPage extends StatelessWidget {
           children: [
             const LoginWelcome(),
             const SizedBox(height: 32),
-            const AuthTextField(
+            AuthTextField(
               title: 'Email',
               placeholder: 'Введите пожалуйста почту',
+              controller: emailController,
             ),
             const SizedBox(height: 24),
-            const AuthTextField(
+            AuthTextField(
               title: 'Password',
               placeholder: 'Введите пароль',
               isObscured: true,
+              controller: passwordController,
             ),
             const ForgotPasswordButton(),
             const Spacer(),
             CustomButton(
               buttonText: 'Вход',
-              onPressed: () {
-                context.router.pushNamed('/main');
+              onPressed: () async {
+                try {
+                  await authProvider.login(
+                    email: emailController.text, 
+                    password: passwordController.text
+                  );
+                  
+                  context.router.replaceNamed('/main');
+                } catch(error) {
+                  print(error);
+                }
               },
             ),
             RegistrationButton(
