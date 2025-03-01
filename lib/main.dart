@@ -26,7 +26,7 @@ class MontrackApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final appRouter = AppRouter();
+    final _appRouter = AppRouter();
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -44,7 +44,7 @@ class MontrackApp extends StatelessWidget {
           )
         )
       ),
-      routerConfig: appRouter.config(),
+      routerConfig: _appRouter.config(),
     );
   }
 }

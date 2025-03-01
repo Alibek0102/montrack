@@ -21,6 +21,7 @@ import 'package:auto_routes_test/features/profile/page/profile_screen.dart'
     as _i5;
 import 'package:auto_routes_test/features/splash/page/splash_screen.dart'
     as _i7;
+import 'package:flutter/material.dart' as _i10;
 
 /// generated route for
 /// [_i1.BudgetingScreen]
@@ -100,10 +101,13 @@ class LoginRoute extends _i9.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.ProfileScreen]
-class ProfileRoute extends _i9.PageRouteInfo<void> {
-  const ProfileRoute({List<_i9.PageRouteInfo>? children})
-      : super(
+class ProfileRoute extends _i9.PageRouteInfo<ProfileRouteArgs> {
+  ProfileRoute({
+    _i10.Key? key,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           ProfileRoute.name,
+          args: ProfileRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -112,9 +116,22 @@ class ProfileRoute extends _i9.PageRouteInfo<void> {
   static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i5.ProfileScreen();
+      final args =
+          data.argsAs<ProfileRouteArgs>(orElse: () => const ProfileRouteArgs());
+      return _i5.ProfileScreen(key: args.key);
     },
   );
+}
+
+class ProfileRouteArgs {
+  const ProfileRouteArgs({this.key});
+
+  final _i10.Key? key;
+
+  @override
+  String toString() {
+    return 'ProfileRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for

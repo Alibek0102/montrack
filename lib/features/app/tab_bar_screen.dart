@@ -9,10 +9,10 @@ class TabBarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.pageView(
-      routes: const [
-        HomeRoute(),
-        BudgetingRoute(),
-        GoalsRoute(),
+      routes: [
+        const HomeRoute(),
+        const BudgetingRoute(),
+        const GoalsRoute(),
         ProfileRoute()
       ],
       builder: (BuildContext context, Widget child, _){
