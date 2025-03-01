@@ -6,12 +6,13 @@ class SettingButton extends StatelessWidget {
   final ProfileSettingButtonModel settingButton;
 
   const SettingButton({
-    required this.settingButton
+    required this.settingButton,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: settingButton.onPress,
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 32,
         height: 40,
