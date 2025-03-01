@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class AuthModel extends ChangeNotifier {
   bool isLoggedIn = false;
+  bool buttonIsActive = false;
 
   bool hasAvailableToken () {
     return FirebaseAuth.instance.currentUser != null;
@@ -37,5 +38,15 @@ class AuthModel extends ChangeNotifier {
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  void watchAuthTextFields({required String email, required String password}) {
+    if(email.isNotEmpty && password.isNotEmpty && buttonIsActive == false) {
+      buttonIsActive = true;
+      notifyListeners();
+    } else if(buttonIsActive == true && email.isEmpty && password.isEmpty) {
+      buttonIsActive = false;
+      notifyListeners();
+    }
   }
 }

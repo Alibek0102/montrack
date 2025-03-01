@@ -21,8 +21,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final appIcon = 'assets/svg_icons/appLogo.svg';
 
-  var buttonIsActive = false;
-
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
 
@@ -31,29 +29,11 @@ class _LoginPageState extends State<LoginPage> {
     passwordController = TextEditingController();
   }
 
-  void onLoginFieldChanged(String text) {
-    if(!emailController.text.isEmpty && !passwordController.text.isEmpty){
-      buttonIsActive = true;
-    } else {
-      buttonIsActive = false;
-    }
-
-    setState(() {});
-  }
-
-  void onPasswordFieldChanged(String text) {
-    if(!emailController.text.isEmpty && !passwordController.text.isEmpty){
-      buttonIsActive = true;
-    } else {
-      buttonIsActive = false;
-    }
-
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    final AuthModel authProvider = context.watch<AuthModel>();
+    final onLogin = context.read<AuthModel>().login;
+    final buttonStatus = context.watch<AuthModel>().buttonIsActive;
+    final onAuthFieldsChanges = context.read<AuthModel>().watchAuthTextFields;
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +57,12 @@ class _LoginPageState extends State<LoginPage> {
               title: 'Email',
               placeholder: 'Введите пожалуйста почту',
               controller: emailController,
-              onChanged: onLoginFieldChanged,
+              onChanged: (_) {
+                onAuthFieldsChanges(
+                  email: emailController.text,
+                  password: passwordController.text
+                );
+              },
             ),
             const SizedBox(height: 24),
             AuthTextField(
@@ -85,27 +70,33 @@ class _LoginPageState extends State<LoginPage> {
               placeholder: 'Введите пароль',
               isObscured: true,
               controller: passwordController,
-              onChanged: onPasswordFieldChanged,
+              onChanged: (_) {
+                onAuthFieldsChanges(
+                  email: emailController.text,
+                  password: passwordController.text
+                );
+              },
             ),
             const ForgotPasswordButton(),
             const Spacer(),
             CustomButton(
               buttonText: 'Вход',
-              onPressed: buttonIsActive
-              ? () async {
-                if(emailController.text.isEmpty || passwordController.text.isEmpty) return null;
+              onPressed: buttonStatus
+                  ? () async {
+                      if (emailController.text.isEmpty ||
+                          passwordController.text.isEmpty) return null;
 
-                try {
-                  await authProvider.login(
-                      email: emailController.text,
-                      password: passwordController.text);
+                      try {
+                        await onLogin(
+                            email: emailController.text,
+                            password: passwordController.text);
 
-                  if(mounted) context.router.replaceNamed('/main');
-                } catch (error) {
-                  CustomSnackbar.show(context, error.toString());
-                }
-              }
-              : null,
+                        if (mounted) context.router.replaceNamed('/main');
+                      } catch (error) {
+                        CustomSnackbar.show(context, error.toString());
+                      }
+                    }
+                  : null,
             ),
             RegistrationButton(
               onPressed: () {
