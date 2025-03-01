@@ -29,12 +29,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    print('init profile');
     super.initState();
     final Future<void> Function() logout = context.read<AuthModel>().logout;
 
     logoutHandler = () {
       logout().then((_) {
-        if(context.mounted) context.router.replaceNamed('/login');
+        if(mounted) context.router.replaceNamed('/login');
       });
     };
   }

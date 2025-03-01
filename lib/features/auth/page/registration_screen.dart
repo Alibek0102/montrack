@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_routes_test/common/custom_button.dart';
 import 'package:auto_routes_test/common/extensions/integer_extension.dart';
-import 'package:auto_routes_test/features/auth/widgets/auth_text_field.dart';
 import 'package:auto_routes_test/features/auth/widgets/login_welcome.dart';
 import 'package:auto_routes_test/features/auth/widgets/registration_button.dart';
 import 'package:flutter/material.dart';

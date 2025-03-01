@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_routes_test/common/components/custom_snackbar.dart';
 import 'package:auto_routes_test/common/custom_button.dart';
 import 'package:auto_routes_test/core/providers/authorization/auth_model.dart';
 import 'package:auto_routes_test/features/auth/widgets/auth_text_field.dart';
@@ -30,14 +31,16 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final AuthModel authProvider = context.watch<AuthModel>();
 
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: SvgPicture.asset(appIcon,width: 130,),
+          child: SvgPicture.asset(
+            appIcon,
+            width: 130,
+          ),
         ),
         leadingWidth: 120 + 30,
       ),
@@ -67,13 +70,12 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () async {
                 try {
                   await authProvider.login(
-                    email: emailController.text, 
-                    password: passwordController.text
-                  );
-                  
-                  context.router.replaceNamed('/main');
-                } catch(error) {
-                  print(error);
+                      email: emailController.text,
+                      password: passwordController.text);
+
+                  if(mounted) context.router.replaceNamed('/main');
+                } catch (error) {
+                  CustomSnackbar.show(context, error.toString());
                 }
               },
             ),
@@ -82,7 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                 context.router.pushNamed('/registration');
               },
             ),
-            const SizedBox(height: 36,)
+            const SizedBox(
+              height: 36,
+            )
           ],
         ),
       ),
