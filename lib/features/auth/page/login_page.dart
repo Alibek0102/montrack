@@ -21,12 +21,34 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final appIcon = 'assets/svg_icons/appLogo.svg';
 
+  var buttonIsActive = false;
+
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
 
   _LoginPageState() {
     emailController = TextEditingController();
     passwordController = TextEditingController();
+  }
+
+  void onLoginFieldChanged(String text) {
+    if(!emailController.text.isEmpty && !passwordController.text.isEmpty){
+      buttonIsActive = true;
+    } else {
+      buttonIsActive = false;
+    }
+
+    setState(() {});
+  }
+
+  void onPasswordFieldChanged(String text) {
+    if(!emailController.text.isEmpty && !passwordController.text.isEmpty){
+      buttonIsActive = true;
+    } else {
+      buttonIsActive = false;
+    }
+
+    setState(() {});
   }
 
   @override
@@ -55,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               title: 'Email',
               placeholder: 'Введите пожалуйста почту',
               controller: emailController,
+              onChanged: onLoginFieldChanged,
             ),
             const SizedBox(height: 24),
             AuthTextField(
@@ -62,12 +85,16 @@ class _LoginPageState extends State<LoginPage> {
               placeholder: 'Введите пароль',
               isObscured: true,
               controller: passwordController,
+              onChanged: onPasswordFieldChanged,
             ),
             const ForgotPasswordButton(),
             const Spacer(),
             CustomButton(
               buttonText: 'Вход',
-              onPressed: () async {
+              onPressed: buttonIsActive
+              ? () async {
+                if(emailController.text.isEmpty || passwordController.text.isEmpty) return null;
+
                 try {
                   await authProvider.login(
                       email: emailController.text,
@@ -77,7 +104,8 @@ class _LoginPageState extends State<LoginPage> {
                 } catch (error) {
                   CustomSnackbar.show(context, error.toString());
                 }
-              },
+              }
+              : null,
             ),
             RegistrationButton(
               onPressed: () {

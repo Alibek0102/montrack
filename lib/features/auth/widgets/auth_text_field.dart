@@ -6,6 +6,7 @@ class AuthTextField extends StatelessWidget {
   final String title;
   final String placeholder;
   final bool isObscured;
+  final Function(String)? onChanged;
 
   final TextEditingController controller;
 
@@ -15,6 +16,7 @@ class AuthTextField extends StatelessWidget {
     required this.placeholder,
     this.isObscured = false,
     required this.controller,
+    this.onChanged
   });
 
   @override
@@ -31,6 +33,7 @@ class AuthTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextField(
+          onChanged: onChanged,
           controller: controller,
           obscureText: isObscured,
           decoration: InputDecoration(
