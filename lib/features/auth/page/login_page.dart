@@ -37,6 +37,8 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        forceMaterialTransparency: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: SvgPicture.asset(
@@ -47,50 +49,52 @@ class _LoginPageState extends State<LoginPage> {
         leadingWidth: 120 + 30,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const LoginWelcome(),
-            const SizedBox(height: 32),
-            AuthTextField(
-              title: 'Email',
-              placeholder: 'Введите пожалуйста почту',
-              controller: emailController,
-              onChanged: (_) {
-                onAuthFieldsChanges(
-                  email: emailController.text,
-                  password: passwordController.text
-                );
-              },
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const LoginWelcome(),
+                    const SizedBox(height: 32),
+                    AuthTextField(
+                      title: 'Email',
+                      placeholder: 'Введите пожалуйста почту',
+                      controller: emailController,
+                      onChanged: (_) {
+                        onAuthFieldsChanges(
+                            email: emailController.text,
+                            password: passwordController.text);
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    AuthTextField(
+                      title: 'Password',
+                      placeholder: 'Введите пароль',
+                      isObscured: true,
+                      controller: passwordController,
+                      onChanged: (_) {
+                        onAuthFieldsChanges(
+                            email: emailController.text,
+                            password: passwordController.text);
+                      },
+                    ),
+                    const ForgotPasswordButton(),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 24),
-            AuthTextField(
-              title: 'Password',
-              placeholder: 'Введите пароль',
-              isObscured: true,
-              controller: passwordController,
-              onChanged: (_) {
-                onAuthFieldsChanges(
-                  email: emailController.text,
-                  password: passwordController.text
-                );
-              },
-            ),
-            const ForgotPasswordButton(),
-            const Spacer(),
             CustomButton(
               buttonText: 'Вход',
               onPressed: buttonStatus
                   ? () async {
-                      if (emailController.text.isEmpty ||
-                          passwordController.text.isEmpty) return null;
-
                       try {
                         await onLogin(
                             email: emailController.text,
                             password: passwordController.text);
-
+        
                         if (mounted) context.router.replaceNamed('/main');
                       } catch (error) {
                         CustomSnackbar.show(context, error.toString());
@@ -103,9 +107,6 @@ class _LoginPageState extends State<LoginPage> {
                 context.router.pushNamed('/registration');
               },
             ),
-            const SizedBox(
-              height: 36,
-            )
           ],
         ),
       ),
